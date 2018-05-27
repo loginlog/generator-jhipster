@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "target2": "es52",
+        "taget2": "es52",
         "module": "commonjs",
         "moduleResolution": "node",
         "sourceMap": true,
