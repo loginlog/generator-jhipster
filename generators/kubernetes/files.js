@@ -36,11 +36,14 @@ function writeFiles() {
                 if (this.app.searchEngine === 'elasticsearch') {
                     this.template('db/elasticsearch.yml.ejs', `${appName}/${appName}-elasticsearch.yml`);
                 }
-                if ((this.app.applicationType === 'gateway' || this.app.applicationType === 'monolith') && this.kubernetesServiceType === 'Ingress') {
+                if (
+                    (this.app.applicationType === 'gateway' || this.app.applicationType === 'monolith') &&
+                    this.kubernetesServiceType === 'Ingress'
+                ) {
                     this.template('ingress.yml.ejs', `${appName}/${appName}-ingress.yml`);
-                    if (!this.app.serviceDiscoveryType && this.app.authenticationType === 'jwt') {
-                        this.template('secret/jwt-secret.yml.ejs', `${appName}/jwt-secret.yml`);
-                    }
+                }
+                if (!this.app.serviceDiscoveryType && this.app.authenticationType === 'jwt') {
+                    this.template('secret/jwt-secret.yml.ejs', `${appName}/jwt-secret.yml`);
                 }
                 if (this.monitoring === 'prometheus') {
                     this.template('monitoring/jhipster-prometheus-sm.yml.ejs', `${appName}/${appName}-prometheus-sm.yml`);
@@ -100,7 +103,7 @@ function writeFiles() {
         },
 
         writeConfigRunFile() {
-            this.template('_kubectl-apply.sh.ejs', 'kubectl-apply.sh');
+            this.template('kubectl-apply.sh.ejs', 'kubectl-apply.sh');
         }
     };
 }

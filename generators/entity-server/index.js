@@ -37,7 +37,8 @@ module.exports = class extends BaseGenerator {
             useBlueprint = this.composeBlueprint(blueprint, 'entity-server', {
                 context: opts.context,
                 force: opts.force,
-                debug: opts.context.isDebugEnabled
+                debug: opts.context.isDebugEnabled,
+                'from-cli': opts.context.options['from-cli']
             });
         } else {
             useBlueprint = false;
@@ -48,6 +49,7 @@ module.exports = class extends BaseGenerator {
     _writing() {
         return writeFiles();
     }
+
     get writing() {
         if (useBlueprint) return;
         return this._writing();

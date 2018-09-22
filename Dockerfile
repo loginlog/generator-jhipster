@@ -20,45 +20,9 @@ RUN \
     fontconfig \
     python \
     g++ \
-    build-essential \
-  # dependencies required by puppeteer
-    gconf-service \
-    libasound2 \
-    libatk1.0-0 \
-    libc6 \
-    libcairo2 \
-    libcups2 \
-    libdbus-1-3 \
-    libexpat1 \
-    libfontconfig1 \
-    libgcc1 \
-    libgconf-2-4 \
-    libgdk-pixbuf2.0-0 \
-    libglib2.0-0 \
-    libgtk-3-0 \
-    libnspr4 \
-    libpango-1.0-0 \
-    libpangocairo-1.0-0 \
-    libstdc++6 \
-    libx11-6 \
-    libx11-xcb1 \
-    libxcb1 \
-    libxcomposite1 \
-    libxcursor1 \
-    libxdamage1 \
-    libxext6 \
-    libxfixes3 \
-    libxi6 \
-    libxrandr2 \
-    libxrender1 \
-    libxss1 \
-    libxtst6 \
-    ca-certificates \
-    fonts-liberation \
-    libappindicator1 \
-    libnss3 \
-    lsb-release \
-    xdg-utils && \
+    libpng-dev \
+    build-essential && \
+
   # install node.js
   curl -sL https://deb.nodesource.com/setup_8.x | bash && \
   apt-get install -y nodejs && \
@@ -68,7 +32,7 @@ RUN \
   npm install -g yarn && \
   su -c "yarn config set prefix /home/jhipster/.yarn-global" jhipster && \
   # install yeoman
-  su -c "yarn global add yo" jhipster && \
+  npm install -g yo && \
   # cleanup
   apt-get clean && \
   rm -rf \
@@ -81,16 +45,16 @@ RUN \
 COPY . /home/jhipster/generator-jhipster
 
 RUN \
+  # clean jhipster folder
+  rm -Rf /home/jhipster/generator-jhipster/node_modules \
+    /home/jhipster/generator-jhipster/yarn.lock \
+    /home/jhipster/generator-jhipster/yarn-error.log && \
+  # install jhipster
+  npm install -g /home/jhipster/generator-jhipster && \
   # fix jhipster user permissions
   chown -R jhipster:jhipster \
     /home/jhipster \
     /usr/lib/node_modules && \
-  # install jhipster
-  rm -Rf /home/jhipster/generator-jhipster/node_modules \
-    /home/jhipster/generator-jhipster/yarn.lock \
-    /home/jhipster/generator-jhipster/yarn-error.log && \
-  su -c "cd /home/jhipster/generator-jhipster && yarn install" jhipster && \
-  su -c "yarn global add file:/home/jhipster/generator-jhipster" jhipster && \
   # cleanup
   rm -rf \
     /home/jhipster/.cache/ \

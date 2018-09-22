@@ -32,14 +32,14 @@ module.exports = {
     checkImages,
     generateJwtSecret,
     configureImageNames,
-    setAppsFolderPaths,
+    setAppsFolderPaths
 };
 
 /**
  * Check Images
  */
 function checkImages() {
-    this.log('\nChecking Docker images in applications\' directories...');
+    this.log('\nChecking Docker images in applications directories...');
 
     let imagePath = '';
     let runCommand = '';
@@ -66,7 +66,7 @@ function checkImages() {
  */
 function generateJwtSecret() {
     if (this.jwtSecretKey === undefined) {
-        this.jwtSecretKey = crypto.randomBytes(20).toString('hex');
+        this.jwtSecretKey = Buffer.from(crypto.randomBytes(50).toString('hex')).toString('base64');
     }
 }
 

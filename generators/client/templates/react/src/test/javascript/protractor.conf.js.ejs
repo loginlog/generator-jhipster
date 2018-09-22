@@ -23,6 +23,8 @@ exports.config = {
 
   framework: 'mocha',
 
+  SELENIUM_PROMISE_MANAGER: false,
+
   mochaOpts: {
     reporter: 'spec',
     slow: 3000,
@@ -32,7 +34,7 @@ exports.config = {
 
   beforeLaunch () {
     require('ts-node').register({
-      project: '<%= TEST_SRC_DIR %>tsconfig.e2e.json'
+      project: './tsconfig.e2e.json'
     });
   },
 

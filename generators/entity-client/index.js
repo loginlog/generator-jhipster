@@ -35,7 +35,8 @@ module.exports = class extends BaseGenerator {
                 context: opts.context,
                 force: opts.force,
                 debug: opts.context.isDebugEnabled,
-                'skip-install': opts.context.options['skip-install']
+                'skip-install': opts.context.options['skip-install'],
+                'from-cli': opts.context.options['from-cli']
             });
         } else {
             useBlueprint = false;
@@ -46,6 +47,7 @@ module.exports = class extends BaseGenerator {
     _writing() {
         return writeFiles();
     }
+
     get writing() {
         if (useBlueprint) return;
         return this._writing();
@@ -62,6 +64,7 @@ module.exports = class extends BaseGenerator {
             }
         };
     }
+
     get end() {
         if (useBlueprint) return;
         return this._end();

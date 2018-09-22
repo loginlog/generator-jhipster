@@ -31,14 +31,11 @@ function setOutputs(stdout, stderr) {
  * @attr maxBuffer value of the buffer to store the live outputs. Default to 10240000
  */
 function command(cmd, cb, opts = {}) {
-    const options = Object.assign(
-        {},
-        {
-            silent: false,
-            maxBuffer: 10240000
-        },
-        opts
-    );
+    const options = {
+        silent: false,
+        maxBuffer: 10240000,
+        ...opts
+    };
     const command = exec(`${cmd}`, { maxBuffer: options.maxBuffer }, cb);
 
     if (!options.silent) {
@@ -58,29 +55,39 @@ function getImageID(imageName, tag) {
     const commandLine = `docker image ls --quiet ${dockerNameTag}`;
 
     return new Promise((resolve, reject) =>
-        command(commandLine, (err, stdout) => {
-            if (err) {
-                reject(err);
-            }
-            const dockerID = _.trim(stdout);
-            if (_.isEmpty(dockerID)) {
-                reject(new Error(`No Docker ID found for ${dockerNameTag}`));
-            } else {
-                resolve(dockerID);
-            }
-        }, { silent: true }));
+        command(
+            commandLine,
+            (err, stdout) => {
+                if (err) {
+                    reject(err);
+                }
+                const dockerID = _.trim(stdout);
+                if (_.isEmpty(dockerID)) {
+                    reject(new Error(`No Docker ID found for ${dockerNameTag}`));
+                } else {
+                    resolve(dockerID);
+                }
+            },
+            { silent: true }
+        )
+    );
 }
 
 function tagImage(from, to) {
     const commandLine = `docker tag ${from} ${to}`;
 
     return new Promise((resolve, reject) =>
-        command(commandLine, (err, stdout) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(stdout);
-        }, { silent: true }));
+        command(
+            commandLine,
+            (err, stdout) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(stdout);
+            },
+            { silent: true }
+        )
+    );
 }
 
 /**
@@ -118,5 +125,6 @@ function pushImage(repository) {
                 reject(err);
             }
             resolve(stdout);
-        }));
+        })
+    );
 }

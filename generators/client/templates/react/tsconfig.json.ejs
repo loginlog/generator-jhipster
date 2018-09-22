@@ -20,7 +20,7 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -28,24 +28,26 @@
     "removeComments": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true,
     "outDir": "<%= DIST_DIR %>app",
     "lib": ["es2015", "es2017", "dom"],
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": ["webpack-env"],
+    "types": ["webpack-env", "jest"],
     "allowJs": true,
     "checkJs": false,
     "baseUrl": "./",
     "paths": {
         "app/*": ["<%= MAIN_SRC_DIR %>app/*"]
     },
-    "importHelpers": true
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "<%= MAIN_SRC_DIR %>app/typing.d.ts",
-    "<%= MAIN_SRC_DIR %>app/**/*"
+    "<%= MAIN_SRC_DIR %>app/**/*",
+    "<%= TEST_SRC_DIR %>spec/**/*"
   ],
   "exclude": [
     "node_modules"
